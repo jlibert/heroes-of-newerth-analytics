@@ -1,0 +1,37 @@
+{
+  "name"         : "heroes-of-newerth-api",
+  "version"      : "0.0.1",
+  "description"  : "Scrape HON character and item data, and analyze!",
+  "main"         : "hon.js",
+  "author"       : "Jeiel Libert <jeiellibert@gmail.com>",
+  "license"      : "MIT",
+  "repository"   : {
+    "type"  :  "git",
+    "url"   :  "https://github.com/jlibert/heroes-of-newerth-api.git"
+  },
+  "keywords"     : [
+    "hon",
+    "heroes",
+    "newerth",
+    "gaming",
+    "analysis",
+    "scraping"
+  ],
+  "dependencies" : {
+    "express"              : "latest",
+    "request"              : "latest",
+    "cheerio"              : "latest",
+    "mysql"                : "latest",
+    "express-myconnection" : "latest",
+    "passport"             : "latest",
+    "jade"                 : "latest",
+    "body-parser"          : "^1.0.2",
+    "errorhandler"         : "^1.0.0",
+    "method-override"      : "^1.0.0",
+    "morgan"               : "^1.0.0",
+    "node-uuid"            :"latest"
+  },
+  "devDependencies"  : {
+    "jasmine-node"   : "latest"
+  }
+}

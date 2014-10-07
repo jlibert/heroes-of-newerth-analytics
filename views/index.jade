@@ -1,0 +1,23 @@
+extends layout
+
+block body
+  div(ng-controller='AppCtrl')
+    .container
+      .page-header#banner
+        .row
+          .col-lg-12
+            h1 HON API
+      div(ng-view)
+
+      div
+        | via 
+        a(href='http://www.heroesofnewerth.com/') http://www.heroesofnewerth.com/
+
+  script(src='js/lib/angular/angular.js')
+  script(src='js/app.js')
+  script(src='js/services.js')
+  script(src='js/controllers.js')
+  script(src='js/filters.js')
+  script(src='js/directives.js')
+  script(src='js/lib/jquery/jquery-1.10.2.min.js')
+  script(src='js/lib/bootstrap/bootstrap.min.js')
