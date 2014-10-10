@@ -1,14 +1,15 @@
+/* jslint node: true */
 'use strict';
 
 /* Controllers */
 
 angular.module('myApp.controllers', []).
-  controller('AppCtrl', function ($scope, $http, HonDBService) {
+  controller('AppCtrl', function ($scope, HonDBService) {
     HonDBService.getDBStatus().success(function(data){
       $scope.DBStatus = data.connection;
     });
   }).
-  controller('dashboardCtrl', function($scope, $http, HeroService, HonDBService){
+  controller('dashboardCtrl', function($scope, HeroService, HonDBService){
     
     $scope.generateDB = function(){ //Fetch data, generate SQL, create DB
       

@@ -8,6 +8,7 @@ var express = require('express'),
     sql = require('../public/js/database.js');
     router = express.Router();
 
+/* Scrape Heroes */
 router.get('/heroes', function(req, res){
   var url = "http://www.heroesofnewerth.com";
   var heroes = [];
@@ -111,50 +112,16 @@ router.post('/createDB', function(req, res){
   });
 });
 
-/* Create Hero Tables */
-router.post('/createHeroTables', function(req, res){
+/* Create Hero Table */
+router.post('/createHeroes', function(req, res){
   req.getConnection(function(err, connection){
-    connection.query('USE `honDB`;', function(err){
+    connection.query(sql.useDB, function(err){
       if (err) return res.status(200).send({'success': false, 'error': err});
-      connection.query(sql.createHeroesTable, function(err){
+      connection.query(sql.createHeroes, function(err){
         if (err) return res.status(200).send({'success': false, 'error': err});
-        connection.query(sql.createHeroesStatsTable+req.body.sql.autoIncr+';', function(err){
+        connection.query(sql.insertHeroes+req.body.sql.insertHeroes+sql.onDuplicateHeroes, function(err){
           if (err) return res.status(200).send({'success': false, 'error': err});
-
-          // Begin Transaction
-          connection.beginTransaction(function(err){
-            if (err) return res.status(200).send({'success': false, 'error': err});
-
-              connection.query(sql.insertHeroStats+req.body.sql.insertHeroStats+sql.onDuplicateHeroStats, function(err){
-                if (err){
-                  connection.rollback(function(){ return res.status(200).send({'success': false, 'error': err}); });
-                }
-              });
-
-              connection.query(sql.insertHeroes+req.body.sql.insertHeroes+sql.onDuplicateHeroes,function(err){
-                if (err){
-                  connection.rollback(function(){ return res.status(200).send({'success': false, 'error': err}); });
-                }
-                connection.commit(function(err) {
-                  if (err) { 
-                    connection.rollback(function(){ return res.status(200).send({'success': false, 'error': err}); });
-                  }
-                });
-              });
-          });
-
-          // Add constraint if it doesn't exist
-          connection.query(sql.getHeroConstraint, function(err, rows){
-            if (err) return res.status(200).send({'success': false, 'error': err});
-              if(rows[0].RESULT === 0){
-                connection.query(sql.addHeroConstraint, function(err){
-                  if (err) return res.status(200).send({'success': false, 'error': err});
-                    res.status(200).send({'success': true, 'error': {}});
-                  });  
-              }else{
-                res.status(200).send({'success': true, 'error': {}});
-              }
-          });
+          res.status(200).send({'success': true, 'error': {}});
         });
       });
     });
