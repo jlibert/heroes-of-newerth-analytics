@@ -153,10 +153,10 @@ router.get('/item-data', function(req, res){
     
     
     // Assign Passive effects to key pair
-    var re = /\+?(\d+%?)\s+((\w+\s*)*)/i;
+    var re = /\+?((\d+\.?\d*%?,*\s*)+)\s+((\w+\s*)*)/;
     
     for(var i=0; passives.length>i; i++){
-      var effect = passives[i].replace(re,"$2");
+      var effect = passives[i].replace(re,"$3");
       var value = passives[i].replace(re,"$1");
       
       passivesJSON[effect]=value;
@@ -215,8 +215,6 @@ router.post('/createItems', function(req, res){
       connection.query(sql.createItems, function(err){
         if (err) return res.status(200).send({'success': false, 'error': err});
         connection.query(sql.insertItems+req.body.sql.insertItems+sql.onDuplicateItems, function(err){
-          console.log(sql.insertItems+req.body.sql.insertItems+sql.onDuplicateItems);
-          console.log(err);
           if (err) return res.status(200).send({'success': false, 'error': err});
           res.status(200).send({'success': true, 'error': {}});
         });

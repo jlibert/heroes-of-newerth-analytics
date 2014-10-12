@@ -9,7 +9,7 @@ angular.module('myApp.controllers', []).
       $scope.DBStatus = data.connection;
     });
   }).
-  controller('dashboardCtrl', function($scope, HeroService, HonDBService){
+  controller('dashboardCtrl', function($scope, HeroService, ItemService, HonDBService){
     
     $scope.generateDB = function(){ //Fetch data, generate SQL, create DB
       
@@ -23,6 +23,7 @@ angular.module('myApp.controllers', []).
         $scope.progress_message = 'Generating SQL from heroesofnewerth.com ...';
         
         HeroService.createHeroes($scope, HeroService, HonDBService);
+        ItemService.createItems($scope, ItemService, HonDBService);
       });
     }
   });
