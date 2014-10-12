@@ -1,0 +1,21 @@
+.row
+  .col-lg-12
+    h2 Dashboard
+    
+    .alert.alert-dismissable.alert-success(ng-show="progress_message=='Completed!'")
+        button.close(type="button", data-dismiss="alert") ×
+        p The Heroes of Newerth Database has been successfully created and populated. Enjoy!
+          
+    div(ng-show="DBStatus < 1 && progress_message!='Completed!'")
+      .alert.alert-dismissable.alert-danger
+        p 
+          strong Oh Snap! 
+          | Looks like you're missing the datasource. 
+          a(ng-click="generateDB()", style='cursor:pointer;') Click here 
+          | to generate the database.
+      
+      .well.well-lg(ng-show="start==1")
+        .progress.progress-striped.active
+          .progress-bar(style="width: {{progress}}%")
+        p 
+          em {{progress_message}}
