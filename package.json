@@ -33,5 +33,8 @@
   },
   "devDependencies"  : {
     "jasmine-node"   : "latest"
+  },
+  "scripts"          : {
+    "test"       : "jasmine-node spec --color --verbose --autotest --watch ."
   }
 }

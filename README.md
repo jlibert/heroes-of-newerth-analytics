@@ -8,7 +8,7 @@ _The aim is to not break should Newerth add new characters and items._
 To obtain character and item data for testing **hero builds** outside of gameplay.
 
 ## How does it work?
-* App scrapes Hero and Item data, from the Heroes of Newerth official website and writes it to a MySQL database, so as to ensure offline functionality (WIP)
+* App scrapes Hero and Item data, from the Heroes of Newerth official website and writes it to a MySQL database, so as to ensure offline functionality.
 * WIP
 
 ## Prerequisites:
@@ -16,10 +16,13 @@ To obtain character and item data for testing **hero builds** outside of gamepla
 * MySQL
 
 ## Tests:
-Coming Soon!
+Change the baseUrl variable in each spec file spec/\*-spec.js and run unit tests with `npm`
+    
+    npm test   
 
 ## Directory:
 
+    .
     ├── config
     │   └── database.js
     ├── hon.js
@@ -30,12 +33,15 @@ Coming Soon!
     │   └── js
     │       ├── app.js
     │       ├── controllers.js
+    │       ├── database.js
     │       ├── directives.js
     │       ├── filters.js
     │       ├── lib
     │       │   ├── angular
     │       │   ├── bootstrap
-    │       │   └── jquery
+    │       │   ├── html5shiv.min.js
+    │       │   ├── jquery
+    │       │   └── respond.min.js
     │       └── services.js
     ├── README.md
     ├── routes
@@ -43,12 +49,12 @@ Coming Soon!
     │   ├── index.js
     │   └── partials.js
     ├── spec
-    │   └── scrape-spec.js
+    │   └── database-spec.js
     └── views
         ├── index.jade
         ├── layout.jade
         └── partials
-        └── dashboard.jade
+            └── dashboard.jade
         
 ## Contributing:
 1. Fork it ( [jlibert/heroes-of-newerth-api](https://github.com/jlibert/heroes-of-newerth-api) )
