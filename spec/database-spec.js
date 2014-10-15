@@ -1,6 +1,6 @@
 var server = require('../hon.js'); // Will start the server
 var request = require('request');
-var baseUrl = 'http://localhost/';
+var baseUrl = 'http://localhost';
 
 describe('All Database functionality: ', function(){
   
@@ -55,7 +55,16 @@ describe('All Database functionality: ', function(){
       request.post({url: baseUrl+'/api/createHeroes', form: sql}, function(req, res, data){
         expect(res.statusCode).toBe(200);
         expect(JSON.parse(data).success).toBeFalsy();
-        expect(JSON.parse(data).error).toBeDefined();
+        done();
+      });
+    }, 250);
+  });
+  
+  describe('getHeroes', function(){
+    it("should return true.", function(done) {
+      request(baseUrl+"/api/getHeroes", function(req, res, data){
+        expect(res.statusCode).toBe(200);
+        expect(JSON.parse(data).success).toBeTruthy();
         done();
       });
     }, 250);

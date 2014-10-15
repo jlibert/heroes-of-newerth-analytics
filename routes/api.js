@@ -171,13 +171,14 @@ router.get('/item-data', function(req, res){
 /* Get Database Status */
 router.get('/getDBStatus', function(req, res, next){
   req.getConnection(function(err, connection) {
-      if (err) return next(err);
-      
+      if (err) return res.status(200).send({'success': false, 'error': err, 'connection': ''});
       connection.query(sql.getHonDB, function(err, rows) {
-        if (err) return next(err);
-        res.json({connection: rows[0].RESULT});
+        if(err){
+          res.status(200).send({'success': false, 'error': err, 'connection': ''});
+        }else{
+          res.status(200).send({'success': true, 'error': '', 'connection': rows[0].RESULT});
+        } 
       });
-
   });
 });
 
@@ -186,7 +187,7 @@ router.post('/createDB', function(req, res){
   req.getConnection(function(err, connection){
     if (err) return res.status(200).send({'success': false, 'error': err});
     connection.query(sql.createHonDB, function(err){
-      return (err)? res.status(200).send({'success': false, 'error': err}): res.status(200).send({'success': true, 'error': ''});
+      return (err)? res.status(200).send({'success': false, 'error': err}): res.status(200).send({'success': true, 'error': {}});
     });
   });
 });
@@ -218,6 +219,19 @@ router.post('/createItems', function(req, res){
           if (err) return res.status(200).send({'success': false, 'error': err});
           res.status(200).send({'success': true, 'error': {}});
         });
+      });
+    });
+  });
+});
+
+/* Get Heroes from DB */
+router.get('/getHeroes', function(req, res){
+  req.getConnection(function(err, connection){
+    connection.query(sql.useDB, function(err){
+      if (err) return res.status(200).send({'success': false, 'error': err, 'rows':{}});
+      connection.query(sql.getHeroes, function(err, rows){
+        if (err) return res.status(200).send({'success': false, 'error': err, 'rows':{}});
+        res.status(200).send({'success': true, 'error': {}, 'rows': rows});
       });
     });
   });

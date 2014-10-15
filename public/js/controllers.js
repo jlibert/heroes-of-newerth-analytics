@@ -26,4 +26,11 @@ angular.module('myApp.controllers', []).
         ItemService.createItems($scope, ItemService, HonDBService);
       });
     }
+
+    if($scope.$parent.DBStatus > 0){
+      HonDBService.getHeroes().then(function(data){
+        $scope.heroes = data.data.rows;
+      });
+    }
+    
   });

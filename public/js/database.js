@@ -37,5 +37,7 @@ module.exports = {
                             ' `strength`=VALUES(strength), `intelligence`=VALUES(intelligence), `agility`=VALUES(agility),'+
                             ' `attackspeed`=VALUES(attackspeed), `healthregeneration`=VALUES(healthregeneration),'+
                             ' `manaregeneration`=VALUES(manaregeneration), `magicarmor`=VALUES(magicarmor),'+
-                            ' `lifesteal`=VALUES(lifesteal), `movementspeed`=VALUES(movementspeed);'
+                            ' `lifesteal`=VALUES(lifesteal), `movementspeed`=VALUES(movementspeed);',
+  
+  'getHeroes'             : 'SELECT * FROM `heroes` ORDER BY `name`;'
 };

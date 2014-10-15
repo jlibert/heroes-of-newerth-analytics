@@ -6,16 +6,41 @@
         button.close(type="button", data-dismiss="alert") ×
         p The Heroes of Newerth Database has been successfully created and populated. Enjoy!
           
-    div(ng-show="DBStatus < 1 && progress_message!='Completed!'")
-      .alert.alert-dismissable.alert-danger
+    div(ng-show="DBStatus < 1")
+      .alert.alert-dismissable.alert-danger(data-dismiss="alert")
         p 
           strong Oh Snap! 
           | Looks like you're missing the datasource. 
           a(ng-click="generateDB()", style='cursor:pointer;') Click here 
           | to generate the database.
       
-      .well.well-lg(ng-show="start==1")
+      .well.well-lg(ng-show="start==1 && progress_message!='Completed!'")
         .progress.progress-striped.active
           .progress-bar(style="width: {{progress}}%")
         p 
           em {{progress_message}}
+          
+div(ng-show="DBStatus == 1")
+  .row
+    .col-lg-12
+      input.form-control.col-lg-8(ng-model='search' type='search', placeholder='Search')
+  br
+  .row
+    .col-lg-12
+      table.table.table-striped.table-hover
+        thead
+          tr
+            th
+            th Name
+            th Type
+        tbody
+          tr(ng-repeat='hero in heroes | filter:search | orderBy:predicate')
+            td(title='{{hero.name}}')
+              a(ng-href='')
+                img(src='{{hero.icon}}', alt='{{hero.name}}' style='width:48px; height:48px;')
+            td
+              a(ng-href='')
+                | {{hero.name}}
+            td 
+              a(ng-href='')
+                | {{hero.herotype}}

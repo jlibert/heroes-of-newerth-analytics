@@ -269,6 +269,14 @@ angular.module('myApp.services', []).
         }).success(function(data){
           return data;
         });
+      },
+      getHeroes: function(){
+        return $http({
+          method: 'GET',
+          url: '/api/getHeroes'
+        }).success(function(data){
+          return data;
+        });
       }
     }
   });
