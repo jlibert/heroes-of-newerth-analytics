@@ -15,6 +15,10 @@ config(function ($routeProvider, $locationProvider) {
       templateUrl: 'partials/dashboard',
       controller: 'dashboardCtrl'
     }).
+    when('/hero', {
+      templateUrl: 'partials/hero',
+      controller: 'heroCtrl'
+    }).
     otherwise({
       redirectTo: '/dashboard'
     });

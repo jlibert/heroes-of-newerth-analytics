@@ -23,24 +23,27 @@
 div(ng-show="DBStatus == 1")
   .row
     .col-lg-12
-      input.form-control.col-lg-8(ng-model='search' type='search', placeholder='Search')
-  br
-  .row
-    .col-lg-12
-      table.table.table-striped.table-hover
-        thead
-          tr
-            th
-            th Name
-            th Type
-        tbody
-          tr(ng-repeat='hero in heroes | filter:search | orderBy:predicate')
-            td(title='{{hero.name}}')
-              a(ng-href='')
-                img(src='{{hero.icon}}', alt='{{hero.name}}' style='width:48px; height:48px;')
-            td
-              a(ng-href='')
-                | {{hero.name}}
-            td 
-              a(ng-href='')
-                | {{hero.herotype}}
+      table.table.table-striped.table-hover(ng-table='tableParams', show-filter='true', template-pagination='custom/pager')
+        tr(ng-repeat='hero in $data')
+          td
+            a(ng-href='hero?name={{hero.name}}')
+              img(src='{{hero.icon}}', alt='{{hero.name}}' style='width:48px; height:48px;')
+          td(data-title="'Name'", sortable="'name'", filter="{'name':'text'}")
+            a(ng-href='hero?name={{hero.name}}')
+              | {{hero.name}}
+          td(data-title="'Type'", sortable="'herotype'")
+            | {{hero.herotype}}
+            
+  script(id='custom/pager', type='text/ng-template')
+    ul.pager.ng-cloak
+      li(ng-repeat='page in pages', ng-class="{'disabled': !page.active, 'previous': page.type == 'prev', 'next': page.type == 'next'}", ng-show="page.type == 'prev' || page.type == 'next'", ng-switch='page.type')
+        a(ng-switch-when='prev', ng-click='params.page(page.number)', href='/dashboard') &laquo; Previous
+        a(ng-switch-when='next', ng-click='params.page(page.number)', href='/dashboard') Next &raquo;
+        li
+          .btn-group
+            button.btn.btn-default(type='button', ng-class="{'active':params.count() == 10}", ng-click='params.count(10)') 10
+            button.btn.btn-default(type='button', ng-class="{'active':params.count() == 25}", ng-click='params.count(25)') 25
+            button.btn.btn-default(type='button', ng-class="{'active':params.count() == 50}", ng-click='params.count(50)') 50
+            button.btn.btn-default(type='button', ng-class="{'active':params.count() == 100}", ng-click='params.count(100)') 100
+            button.btn.btn-default(type='button', ng-class="{'active':params.count() == 150}", ng-click='params.count(150)') 150
+
