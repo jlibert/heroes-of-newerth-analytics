@@ -81,7 +81,9 @@ angular.module('myApp.controllers', ['ngTable', 'ngDragDrop']).
       $scope.RemoveItem = function(index){ $scope.itemSlot.splice(index, 1); }
       
       // Add Item to Items slot (on click)
-      $scope.AddItem = function(item){ $scope.itemSlot.push(item); }
+      $scope.AddItem = function(item){ 
+        if($scope.itemSlot.length < 6) $scope.itemSlot.push(item); 
+      }
       
       // Display Item effects
       $scope.ItemEffects = function(item){ return DisplayService.ItemEffects(item); }
