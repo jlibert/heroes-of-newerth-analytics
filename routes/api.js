@@ -229,12 +229,37 @@ router.get('/getHeroes', function(req, res){
   req.getConnection(function(err, connection){
     connection.query(sql.useDB, function(err){
       if (err) return res.status(200).send({'success': false, 'error': err, 'rows':{}});
-      connection.query(sql.getHeroes, function(err, rows){
+      
+      if(req.param('data')=='{}'){
+        connection.query(sql.getHeroes, function(err, rows){
+          if (err) return res.status(200).send({'success': false, 'error': err, 'rows':{}});
+          return res.status(200).send({'success': true, 'error': {}, 'rows': rows});
+        });
+      }
+      
+      if(Object.keys(JSON.parse(req.param('data'))).length > 0){
+        connection.query(sql.getHeroesWhere, [JSON.parse(req.param('data'))], function(err, rows){
+          if (err) return res.status(200).send({'success': false, 'error': err, 'rows':{}});
+          res.status(200).send({'success': true, 'error': {}, 'rows': rows});
+        });  
+      }
+      
+    });
+  });
+});
+
+/* Get Items from DB */
+router.get('/getItems', function(req, res){
+  req.getConnection(function(err, connection){
+    connection.query(sql.useDB, function(err){
+      if (err) return res.status(200).send({'success': false, 'error': err, 'rows':{}});
+      connection.query(sql.getItems, function(err, rows){
         if (err) return res.status(200).send({'success': false, 'error': err, 'rows':{}});
         res.status(200).send({'success': true, 'error': {}, 'rows': rows});
       });
     });
   });
 });
+
 
 module.exports = router;

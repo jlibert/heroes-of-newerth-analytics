@@ -3,7 +3,7 @@
 
 /* Controllers */
 
-angular.module('myApp.controllers', ['ngTable']).
+angular.module('myApp.controllers', ['ngTable', 'ngDragDrop']).
   controller('AppCtrl', function ($scope, HonDBService) {
     HonDBService.getDBStatus().success(function(data){
       $scope.DBStatus = data.connection;
@@ -41,7 +41,8 @@ angular.module('myApp.controllers', ['ngTable']).
         }, {
           total: 1,
           getData: function($defer, params) {
-            HonDBService.getHeroes().then(function(data){
+            var data = {};
+            HonDBService.getHeroes(data).then(function(data){
 
               var filteredData = params.filter() ?
                       $filter('filter')(data.data.rows, params.filter()) :
@@ -59,12 +60,69 @@ angular.module('myApp.controllers', ['ngTable']).
     
   }).
 
-  controller('heroCtrl', function($scope, $location){
+  controller('heroCtrl', function($scope, $location, $filter, HonDBService, DisplayService, ngTableParams){
     if($scope.$parent.DBStatus > 0){
+      
+      // Items slot is empty by default
+      $scope.itemSlot = [];
+      
+      // Limit number of items in Item slot to 6
+      $scope.limitList = {
+        accept: function(dragEl) {
+          if ($scope.itemSlot.length >= 6) {
+            return false;
+          } else {
+            return true;
+          }
+        }
+      };
+      
+      // Remove Item from Items slot
+      $scope.RemoveItem = function(index){ $scope.itemSlot.splice(index, 1); }
+      
+      // Add Item to Items slot (on click)
+      $scope.AddItem = function(item){ $scope.itemSlot.push(item); }
+      
+      // Display Item effects
+      $scope.ItemEffects = function(item){ return DisplayService.ItemEffects(item); }
+      
+      
+      /* Hero Data */
+      var data = {"id": $location.search().id}; // Get the hero's id from query string
+      HonDBService.getHeroes(data).then(function(data){
+         $scope.hero = data.data.rows[0];
+      });
+      
+      /* Item Table */
+      $scope.tableParams = new ngTableParams({
+            page: 1,            // show first page
+            count: 5,           // count per page
+            sorting: {
+              name: 'asc' // initial sorting
+            },
+            filter: {
+              name: ''
+            }
+        }, {
+          total: 1,
+          getData: function($defer, params) {
+            HonDBService.getItems().then(function(data){
+              
+              var filteredData = params.filter() ?
+                      $filter('filter')(data.data.rows, params.filter()) :
+                      data.data.rows;
+              var orderedData = params.sorting() ?
+                      $filter('orderBy')(filteredData, params.orderBy()) :
+                      data.data.rows;
 
-      $scope.hero = $location.search().name;
-      // TODO      
+              params.total(orderedData.length);
+              $defer.resolve(orderedData.slice((params.page() - 1) * params.count(), params.page() * params.count()));
+              });
+            }
+        });
+      
     }else{
       // should redirect to dashboard
     }
+    
   });

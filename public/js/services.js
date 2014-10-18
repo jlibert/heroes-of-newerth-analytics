@@ -270,16 +270,95 @@ angular.module('myApp.services', []).
           return data;
         });
       },
-      getHeroes: function(){
+      getHeroes: function(data){
         return $http({
           method: 'GET',
-          url: '/api/getHeroes'
+          url: '/api/getHeroes',
+          params:{data:data}
+        }).success(function(data){
+          return data;
+        });
+      },
+      getItems: function(data){
+        return $http({
+          method: 'GET',
+          url: '/api/getItems'
         }).success(function(data){
           return data;
         });
       }
     }
-  });
+  }).
+  factory('DisplayService', function(){
+    return{
+      ItemEffects: function(item){
+        var len = Object.keys(item).length;
+        var effects = ''; // Empty list of item effects
+        
+        for(var i=0; i< len; i++){
+          var key = Object.keys(item)[i];
+          
+          //loop through item properties and set display
+          if(key!=='$$hashKey' && key!=='id' && key!=='name' && key!=='icon'){
+            if(item[key]!==null){
+              
+              var val = item[key].toString().replace(/(\d+\.*\d*)\s(percent)/,"$1%"); // Change 'percent' to display '%'
+
+              // Append Item Effect to List
+              switch(key){
+                case 'cost':
+                  effects += 'Cost: '+val+', ';
+                  break;
+                case 'healthregeneration':
+                  effects += 'Health Regeneration: +'+val+', ';
+                  break;
+                case 'intelligence':
+                  effects += 'Intelligence: +'+val+', ';
+                  break;
+                case 'attackspeed':
+                  effects += 'Attack Speed: +'+val+', ';
+                  break;
+                case 'manaregeneration':
+                  effects += 'Mana Regeneration: +'+val+', ';
+                  break;
+                case 'lifesteal':
+                  effects += 'Lifesteal: +'+val+', ';
+                  break;
+                case 'magicarmor':
+                  effects += 'Magic Armor: +'+val+', ';
+                  break;
+                case 'agility':
+                  effects += 'Agility: +'+val+', ';
+                  break;
+                case 'strength':
+                  effects += 'Strength: +'+val+', ';
+                  break;
+                case 'armor':
+                  effects += 'Armor: +'+val+', ';
+                  break;
+                case 'maxmana':
+                  effects += 'Max Mana: +'+val+', ';
+                  break;
+                case 'maxhealth':
+                  effects += 'Max Health: +'+val+', ';
+                  break;
+                case 'damage':
+                  effects += 'Damage: +'+val+', ';
+                  break;
+                case 'movementspeed':
+                  effects += 'Movement Speed: +'+val+', ';
+                  break;
+                default:
+                  break;
+              }
+            }
+          }
+        }
+        effects = effects.substring(0, effects.length - 2); // Remove trailing ','
+        return effects;
+      }
+    }
+});
 
 function addslashes(string) { // Bootleg character escaping :S
   return string.replace(/\\/g, '\\\\').

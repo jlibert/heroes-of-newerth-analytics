@@ -1,3 +1,92 @@
 .row
   .col-lg-12
-    h2 {{hero}}
+    .alert.alert-dismissable.alert-info
+        button.close(type='button', data-dismiss='alert') ×
+        | Click or Drag items from the table into "Items Tray" to add item effects to 
+        strong {{hero.name}}
+        |'s Stats
+.row
+  .col-lg-8
+    .panel.panel-default
+      .panel-body
+          .row
+            .col-lg-4
+              img(src='{{hero.icon}}', alt='{{hero.name}}', style='width:80px; height:80px;')
+              h3 {{hero.name}}
+              strong Type: 
+              | {{hero.herotype}}
+            .col-lg-8
+              table.table
+                tr
+                  td
+                    strong Health: 
+                    | {{hero.health}}
+                  td 
+                    strong Mana: 
+                    | {{hero.mana}}
+                tr
+                  td
+                    strong Damage: 
+                    | {{hero.damage}}
+                  td
+                    strong Armor: 
+                    | {{hero.armor}}
+                tr
+                  td
+                    strong Strength: 
+                    | {{hero.strength}}
+                  td
+                    strong Intelligence: 
+                    | {{hero.intelligence}}
+                tr
+                  td
+                    strong Agility: 
+                    | {{hero.agility}}
+                  td
+                    strong Range: 
+                    | {{hero.atkrange}}
+                tr
+                  td
+                    strong Attack Speed: 
+                    | {{hero.attackspeed}}
+                  td
+                    strong Movement Speed: 
+                    | {{hero.movementspeed}}
+                    
+    .row
+      .col-lg-12
+        .panel.panel-primary
+          .panel-heading
+            h3.panel-title Items Tray ({{itemSlot.length}} of 6)
+          .panel-body(data-drop="true", ng-model='itemSlot', jqyoui-droppable="{multiple:true}", data-jqyoui-options="limitList")
+            .list-group
+              a.list-group-item(href='/hero?id={{hero.id}}', ng-repeat="item in itemSlot", data-drag="true", data-jqyoui-options="{revert: 'invalid'}", ng-model="itemSlot", jqyoui-draggable="{index: {{$index}}, animate:true, placeholder:true}")
+                .row
+                  .col-lg-12
+                    button.close(type='button', ng-click='RemoveItem($index)') ×
+                    h5.list-group-item-heading {{item.name}}
+                .row
+                  .col-lg-2
+                    img(src='{{item.icon}}', style='width:48px; height:48px;')
+                  .col-lg-10
+                    p.list-group-item-text {{ ItemEffects(item) }}
+   
+  .col-lg-4
+    table.table.table-striped.table-hover(ng-table='tableParams', show-filter='true', template-pagination='custom/pager')
+      tr(ng-repeat='item in $data', data-drag="true", ng-model='$data', jqyoui-draggable="{index: {{$index}}, animate: true, placeholder: 'keep'}", data-jqyoui-options="{revert: 'invalid', helper: 'clone', cursor: 'move'}")
+        td
+          a(ng-href='', ng-click='AddItem(item)', title='{{ ItemEffects(item) }}')
+            img(src='{{item.icon}}', alt='{{item.name}}' style='width:48px; height:48px;')
+        td(data-title="'Item'", sortable="'name'", filter="{'name':'text'}")
+          a(ng-href='', ng-click='AddItem(item)', title='{{ ItemEffects(item) }}')
+            | {{item.name}}
+
+script(id='custom/pager', type='text/ng-template')
+  ul.pager.ng-cloak
+    li
+      .btn-group
+        button.btn.btn-default(type='button', ng-class="{'active':params.count() == 5}", ng-click='params.count(5)') 5
+        button.btn.btn-default(type='button', ng-class="{'active':params.count() == 10}", ng-click='params.count(10)') 10
+        button.btn.btn-default(type='button', ng-class="{'active':params.count() == 20}", ng-click='params.count(20)') 20
+        button.btn.btn-default(type='button', ng-class="{'active':params.count() == 50}", ng-click='params.count(50)') 50
+        button.btn.btn-default(type='button', ng-class="{'active':params.count() == 100}", ng-click='params.count(100)') 100

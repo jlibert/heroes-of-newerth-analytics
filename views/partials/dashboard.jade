@@ -26,10 +26,10 @@ div(ng-show="DBStatus == 1")
       table.table.table-striped.table-hover(ng-table='tableParams', show-filter='true', template-pagination='custom/pager')
         tr(ng-repeat='hero in $data')
           td
-            a(ng-href='hero?name={{hero.name}}')
+            a(ng-href='hero?id={{hero.id}}')
               img(src='{{hero.icon}}', alt='{{hero.name}}' style='width:48px; height:48px;')
           td(data-title="'Name'", sortable="'name'", filter="{'name':'text'}")
-            a(ng-href='hero?name={{hero.name}}')
+            a(ng-href='hero?id={{hero.id}}')
               | {{hero.name}}
           td(data-title="'Type'", sortable="'herotype'")
             | {{hero.herotype}}

@@ -39,5 +39,9 @@ module.exports = {
                             ' `manaregeneration`=VALUES(manaregeneration), `magicarmor`=VALUES(magicarmor),'+
                             ' `lifesteal`=VALUES(lifesteal), `movementspeed`=VALUES(movementspeed);',
   
-  'getHeroes'             : 'SELECT * FROM `heroes` ORDER BY `name`;'
+  'getHeroes'             : 'SELECT * FROM `heroes` ORDER BY `name`;',
+  
+  'getHeroesWhere'        : 'SELECT * FROM `heroes` WHERE ?',
+  
+  'getItems'              : 'SELECT * FROM `items` ORDER BY `name`;'
 };
