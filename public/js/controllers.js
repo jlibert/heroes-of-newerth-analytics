@@ -88,6 +88,8 @@ angular.module('myApp.controllers', ['ngTable', 'ngDragDrop']).
       // Display Item effects
       $scope.ItemEffects = function(item){ return DisplayService.ItemEffects(item); }
       
+      // Update stats from item tray aggregate
+      $scope.heroStats = function(stat, value){ return DisplayService.UpdateHeroStats($scope, DisplayService, stat, value); }
       
       /* Hero Data */
       var data = {"id": $location.search().id}; // Get the hero's id from query string

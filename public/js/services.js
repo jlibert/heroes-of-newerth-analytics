@@ -304,7 +304,7 @@ angular.module('myApp.services', []).
               
               var val = item[key].toString().replace(/(\d+\.*\d*)\s(percent)/,"$1%"); // Change 'percent' to display '%'
 
-              // Append Item Effect to List
+              // Append Item Effect to Item Description List
               switch(key){
                 case 'cost':
                   effects += 'Cost: '+val+', ';
@@ -312,29 +312,14 @@ angular.module('myApp.services', []).
                 case 'healthregeneration':
                   effects += 'Health Regeneration: +'+val+', ';
                   break;
-                case 'intelligence':
-                  effects += 'Intelligence: +'+val+', ';
-                  break;
                 case 'attackspeed':
                   effects += 'Attack Speed: +'+val+', ';
                   break;
                 case 'manaregeneration':
                   effects += 'Mana Regeneration: +'+val+', ';
                   break;
-                case 'lifesteal':
-                  effects += 'Lifesteal: +'+val+', ';
-                  break;
                 case 'magicarmor':
                   effects += 'Magic Armor: +'+val+', ';
-                  break;
-                case 'agility':
-                  effects += 'Agility: +'+val+', ';
-                  break;
-                case 'strength':
-                  effects += 'Strength: +'+val+', ';
-                  break;
-                case 'armor':
-                  effects += 'Armor: +'+val+', ';
                   break;
                 case 'maxmana':
                   effects += 'Max Mana: +'+val+', ';
@@ -342,13 +327,11 @@ angular.module('myApp.services', []).
                 case 'maxhealth':
                   effects += 'Max Health: +'+val+', ';
                   break;
-                case 'damage':
-                  effects += 'Damage: +'+val+', ';
-                  break;
                 case 'movementspeed':
                   effects += 'Movement Speed: +'+val+', ';
                   break;
                 default:
+                  effects += (key.charAt(0).toUpperCase() + key.slice(1))+': +'+val+', '; // Other effects whose key needs only to be uppercased
                   break;
               }
             }
@@ -356,6 +339,55 @@ angular.module('myApp.services', []).
         }
         effects = effects.substring(0, effects.length - 2); // Remove trailing ','
         return effects;
+      },
+      AggregateEffects: function($scope, stat){
+        
+        var retVal = 0;
+        var level1, percent;
+        
+        if($scope.itemSlot.length > 0){
+                   
+          for(var i=0; i<$scope.itemSlot.length;i++){ // Loop through items in Item Tray and aggregate effect values
+            
+            if($scope.itemSlot[i][stat] !== null){
+              if($scope.itemSlot[i][stat].match(/(\d+\.*\d*)\s(percent)/)){ // Handling percent values
+                percent = parseInt($scope.itemSlot[i][stat].replace(/(\d+\.*\d*)\s(percent)/, '$1'));
+                retVal = retVal + $scope.hero[stat] * (percent/100);
+              }
+              else if($scope.itemSlot[i][stat].match(/\d+,\d+(,\d+)*/)){ // Handling multiple level values
+                // TODO: Some feature for selecting which level of stats to use, for now use level 1
+                level1 = parseInt($scope.itemSlot[i][stat].replace(/(\d+),\d+(,\d+)*/, '$1'));
+                retVal = retVal + level1;
+              }
+              else{
+                retVal = retVal + parseInt($scope.itemSlot[i][stat]); // Flat values are simply added to total
+              }
+            }
+          }
+          return retVal;
+        }
+      },
+      UpdateHeroStats: function($scope, DisplayService, stat, value){
+        
+        var effect = 0;
+        if(typeof(DisplayService.AggregateEffects($scope, stat))!=='undefined'){
+          effect = DisplayService.AggregateEffects($scope, stat);
+        }
+        
+        if(typeof(value) == 'string' && value.match(/\d+\-\d+/)){ // Add item effects to min-max values; i.e. 45-55
+          var min = effect+parseInt(value.replace(/(\d+)\-\d+/, '$1'));
+          var max = effect+parseInt(value.replace(/\d+\-(\d+)/, '$1'));
+          return min+'-'+max;
+        }
+        else if(typeof(value) == 'string' && value.match(/\d+\s\(\s\+\d+\.?\d?\s\)/)){  // Add item effects to values with bracket bonus; i.e. 35 (+2.2)
+          var newVal = effect+parseInt(value.replace(/(\d+)\s\(\s\+\d+\.?\d?\s\)/, '$1'));
+          var stub = value.replace(/\d+(\s\(\s\+\d+\.?\d?\s\))/, '$1');
+          return newVal+stub;
+        }
+        else{
+          return effect+value; // Add effects to normal integer values
+        }
+        
       }
     }
 });

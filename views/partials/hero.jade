@@ -10,48 +10,57 @@
     .panel.panel-default
       .panel-body
           .row
-            .col-lg-4
+            .col-lg-3
               img(src='{{hero.icon}}', alt='{{hero.name}}', style='width:80px; height:80px;')
               h3 {{hero.name}}
               strong Type: 
               | {{hero.herotype}}
-            .col-lg-8
+            .col-lg-9
               table.table
                 tr
                   td
                     strong Health: 
-                    | {{hero.health}}
+                    | {{hero.health}}  
+                    span(style="color:#33CC33;" ng-show="hero.health != heroStats('maxhealth', hero.health)") -> {{heroStats('maxhealth', hero.health)}}
                   td 
                     strong Mana: 
-                    | {{hero.mana}}
+                    | {{hero.mana}} 
+                    span(style="color:#33CC33;", ng-show="hero.mana != heroStats('maxmana', hero.mana)") -> {{heroStats('maxmana', hero.mana)}}
                 tr
                   td
                     strong Damage: 
-                    | {{hero.damage}}
+                    | {{hero.damage}} 
+                    span(style="color:#33CC33;", ng-show="hero.damage != heroStats('damage', hero.damage)") -> {{heroStats('damage', hero.damage)}}
                   td
                     strong Armor: 
-                    | {{hero.armor}}
+                    | {{hero.armor}} 
+                    span(style="color:#33CC33;", ng-show="hero.armor != heroStats('armor', hero.armor)") -> {{heroStats('armor', hero.armor)}}
                 tr
                   td
                     strong Strength: 
-                    | {{hero.strength}}
+                    | {{hero.strength}} 
+                    span(style="color:#33CC33;", ng-show="hero.strength != heroStats('strength', hero.strength)") -> {{heroStats('strength', hero.strength)}}
                   td
                     strong Intelligence: 
-                    | {{hero.intelligence}}
+                    | {{hero.intelligence}} 
+                    span(style="color:#33CC33;", ng-show="hero.intelligence != heroStats('intelligence', hero.intelligence)") -> {{heroStats('intelligence', hero.intelligence)}}
                 tr
                   td
                     strong Agility: 
-                    | {{hero.agility}}
+                    | {{hero.agility}} 
+                    span(style="color:#33CC33;", ng-show="hero.agility != heroStats('agility', hero.agility)") -> {{heroStats('agility', hero.agility)}}
                   td
                     strong Range: 
                     | {{hero.atkrange}}
                 tr
                   td
                     strong Attack Speed: 
-                    | {{hero.attackspeed}}
+                    | {{hero.attackspeed}} 
+                    span(style="color:#33CC33;", ng-show="hero.attackspeed != heroStats('attackspeed', hero.attackspeed)") -> {{heroStats('attackspeed', hero.attackspeed)}}
                   td
                     strong Movement Speed: 
-                    | {{hero.movementspeed}}
+                    | {{hero.movementspeed}} 
+                    span(style="color:#33CC33;", ng-show="hero.movementspeed != heroStats('movementspeed', hero.movementspeed)") -> {{heroStats('movementspeed', hero.movementspeed)}}
                     
     .row
       .col-lg-12
@@ -90,3 +99,4 @@ script(id='custom/pager', type='text/ng-template')
         button.btn.btn-default(type='button', ng-class="{'active':params.count() == 20}", ng-click='params.count(20)') 20
         button.btn.btn-default(type='button', ng-class="{'active':params.count() == 50}", ng-click='params.count(50)') 50
         button.btn.btn-default(type='button', ng-class="{'active':params.count() == 100}", ng-click='params.count(100)') 100
+        button.btn.btn-default(type='button', ng-class="{'active':params.count() == 150}", ng-click='params.count(150)') 150
