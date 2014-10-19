@@ -171,14 +171,22 @@ router.get('/item-data', function(req, res){
 /* Get Database Status */
 router.get('/getDBStatus', function(req, res, next){
   req.getConnection(function(err, connection) {
+    if (err) return res.status(200).send({'success': false, 'error': err, 'connection': ''});
+    connection.query(sql.getHonDB, function(err, rows) {
       if (err) return res.status(200).send({'success': false, 'error': err, 'connection': ''});
-      connection.query(sql.getHonDB, function(err, rows) {
-        if(err){
-          res.status(200).send({'success': false, 'error': err, 'connection': ''});
-        }else{
-          res.status(200).send({'success': true, 'error': '', 'connection': rows[0].RESULT});
-        } 
+      if (rows[0].RESULT < 1) return res.status(200).send({'success': true, 'error': '', 'connection': 0});
+      connection.query(sql.useDB, function(err){
+        if (err) return res.status(200).send({'success': false, 'error': err, 'connection': ''});
+        connection.query(sql.getHeroesTable, function(err, rows){
+          if (err) return res.status(200).send({'success': false, 'error': err, 'connection': ''});
+          if (rows[0].RESULT < 1) return res.status(200).send({'success': true, 'error': '', 'connection': 0});
+          connection.query(sql.getItemsTable, function(err, rows){
+            if (err) return res.status(200).send({'success': false, 'error': err, 'connection': ''});
+            res.status(200).send({'success': true, 'error': '', 'connection': rows[0].RESULT});
+          });
+        });
       });
+    });
   });
 });
 

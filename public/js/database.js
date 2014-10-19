@@ -2,7 +2,11 @@
 module.exports = {
   'useDB'                 : 'USE `honDB`;',
   
-  'getHonDB'              : 'SELECT COUNT(*) AS RESULT FROM information_schema.SCHEMATA where SCHEMA_NAME = "honDB";',
+  'getHonDB'              : 'SELECT COUNT(*) AS RESULT FROM information_schema.SCHEMATA WHERE SCHEMA_NAME = "honDB";',
+  
+  'getHeroesTable'        : 'SELECT COUNT(*) AS RESULT FROM information_schema.TABLES WHERE TABLE_SCHEMA = "honDB" AND TABLE_NAME = "heroes";',
+  
+  'getItemsTable'         : 'SELECT COUNT(*) AS RESULT FROM information_schema.TABLES WHERE TABLE_SCHEMA = "honDB" AND TABLE_NAME = "items";',
   
   'createHonDB'           : 'CREATE DATABASE IF NOT EXISTS `honDB`;',
   

@@ -126,7 +126,7 @@ angular.module('myApp.controllers', ['ngTable', 'ngDragDrop']).
         });
       
     }else{
-      // should redirect to dashboard
+      $location.url('/dashboard');
     }
     
   });
