@@ -1,4 +1,4 @@
-# heroes-of-newerth-api
+# heroes-of-newerth-analytics
 
 This is a screen scraper for the Heroes of Newerth official website (http://www.heroesofnewerth.com/).
 
@@ -8,8 +8,8 @@ _The aim is to not break should Newerth add new characters and items._
 To obtain character and item data for testing **hero builds** outside of gameplay.
 
 ## How does it work?
-* App scrapes Hero and Item data, from the Heroes of Newerth official website and writes it to a MySQL database, so as to ensure offline functionality.
-* WIP
+* App scrapes Hero and Item data, from the Heroes of Newerth official website and writes it to a MySQL database, so as to ensure some offline functionality.
+* App allows users to simulate a hero build that they would have otherwise had to do during gameplay (can be a bit difficult if you are a beginner).
 
 ## Prerequisites:
 * npm
@@ -29,7 +29,8 @@ Change the baseUrl variable in each spec file spec/\*-spec.js and run unit tests
     ├── package.json
     ├── public
     │   ├── css
-    │   │   └── bootstrap.min.css
+    │   │   ├── bootstrap.min.css
+    │   │   └── ng-table.css
     │   └── js
     │       ├── app.js
     │       ├── controllers.js
@@ -54,10 +55,11 @@ Change the baseUrl variable in each spec file spec/\*-spec.js and run unit tests
         ├── index.jade
         ├── layout.jade
         └── partials
-            └── dashboard.jade
+            ├── dashboard.jade
+            └── hero.jade
         
 ## Contributing:
-1. Fork it ( [jlibert/heroes-of-newerth-api](https://github.com/jlibert/heroes-of-newerth-api) )
+1. Fork it ( [jlibert/heroes-of-newerth-analytics](https://github.com/jlibert/heroes-of-newerth-analytics) )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

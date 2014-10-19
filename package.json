@@ -1,5 +1,5 @@
 {
-  "name"         : "heroes-of-newerth-api",
+  "name"         : "heroes-of-newerth-analytics",
   "version"      : "0.0.1",
   "description"  : "Scrape HON character and item data, and analyze!",
   "main"         : "hon.js",
@@ -7,7 +7,7 @@
   "license"      : "MIT",
   "repository"   : {
     "type"  :  "git",
-    "url"   :  "https://github.com/jlibert/heroes-of-newerth-api.git"
+    "url"   :  "https://github.com/jlibert/heroes-of-newerth-analytics.git"
   },
   "keywords"     : [
     "hon",
