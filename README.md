@@ -1,8 +1,10 @@
 # heroes-of-newerth-analytics
 
-This is a screen scraper for the Heroes of Newerth official website (http://www.heroesofnewerth.com/).
+This is ~~a screen scraper~~ an app, for analysis of heroes, for the Heroes of Newerth official website (http://www.heroesofnewerth.com/).
 
 _The aim is to not break should Newerth add new characters and items._
+
+![alt tag](https://github.com/jlibert/heroes-of-newerth-analytics/blob/master/hon.png)
 
 ## Objectives:
 To obtain character and item data for testing **hero builds** outside of gameplay.
